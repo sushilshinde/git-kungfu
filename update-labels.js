@@ -1,7 +1,6 @@
 const Octokit = require('@octokit/rest')
 require('dotenv').config()
 
-const rgx = /MSFT/g
 const promises = []
 const octokit = new Octokit({
     auth: process.env.github_auth_token,
