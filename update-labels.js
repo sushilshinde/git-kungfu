@@ -1,14 +1,14 @@
 const Octokit = require('@octokit/rest')
 require('dotenv').config()
 
-const rgx = /\[MSFT.*?\]/g
+const rgx = /MSFT/g
 const promises = []
 const octokit = new Octokit({
     auth: process.env.github_auth_token,
     baseUrl: 'https://api.github.com'
    })
 
-addLabels => function(number,labels){
+function addLabels(number,labels){
     octokit.issues.addLabels({
         owner:process.env.owner,
         repo:process.env.repo,
@@ -16,30 +16,27 @@ addLabels => function(number,labels){
         labels:labels
       }).then(rs => {
           //console.log(rs)
-      })
+      }).catch(e => console.log(e))
 }
 
-for(let i =1 ; i < 200; i++){
+for(let i =1 ; i < 2; i++){
     let p = octokit.issues.listForRepo({
-        owner:"topcoder-platform",
-        repo:"community-app",
+        owner:process.env.owner,
+        repo:process.env.repo,
         per_page:99,
         page:i,
         state: 'open'
       }).then(rs => {
-        let t = rs.data.forEach(element => {
-            if(rgx.test(element.title)){
-              element.labels.forEach(function(item){
-                if(item.name !== 'Accessibility'){
-                  console.log("--------------------------")
-                  console.log(element.title)
-                  console.log(element.labels)
+        rs.data.forEach(element => {
+            if(element.title.indexOf("MSFT") > 0){
+              console.log(element.title)
+              let hasAccessibilityLabel = element.labels.filter((l) => l.name === 'Accessibility' ).length > 0;
+                if(!hasAccessibilityLabel){
+                  addLabels(element.number,['Accessibility'])
                 }
-              })
-                //addLabels(element.number,['Accessibility'])
             }
         })
-     })
+     }).catch(e => console.log(e))
     promises.push(p)
 }
 
