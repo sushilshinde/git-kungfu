@@ -19,7 +19,7 @@ function addLabels(number,labels){
       }).catch(e => console.log(e))
 }
 
-for(let i =1 ; i < 2; i++){
+for(let i =1 ; i < 100; i++){
     let p = octokit.issues.listForRepo({
         owner:process.env.owner,
         repo:process.env.repo,
@@ -29,9 +29,9 @@ for(let i =1 ; i < 2; i++){
       }).then(rs => {
         rs.data.forEach(element => {
             if(element.title.indexOf("MSFT") > 0){
-              console.log(element.title)
               let hasAccessibilityLabel = element.labels.filter((l) => l.name === 'Accessibility' ).length > 0;
                 if(!hasAccessibilityLabel){
+                  console.log(element.title)
                   addLabels(element.number,['Accessibility'])
                 }
             }
