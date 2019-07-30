@@ -3,11 +3,11 @@ require("dotenv").config();
 const fs = require('fs');
 var schedule = require('node-schedule');
 
-const numbers = [6,7,8,9]
+const numbers = [3138,3137,3135,3134,3133,3131,3128]
 let count = 0 
 
 const INTERVAL = {
-    FIVE_MIN: "*/1 * * * *",
+    FIVE_MIN: "*/7 * * * *",
     FIVE_SEC:'*/5 * * * * *'
 }
 
@@ -24,26 +24,21 @@ function print(number,message){
       });
 
 }
-
-function runJob(){
- 
-    if(count === numbers.length) process.exit()
  
     console.log("Merging : "+numbers[count])
-    octokit.pulls.merge({
-        owner:"sushilshinde",//process.env.owner,
-        repo:"git-kungfu",//process.env.repo,
+
+    octokit.pulls.get({
+        owner:process.env.owner,
+        repo:process.env.repo,
         pull_number:numbers[count]
-    }).then(data => {
+      }).then(data => {
         print(numbers[count],data.data.sha)        
         count++
     }).catch(e => {
-        print(numbers[count],"Merge Failed")        
+        print(numbers[count],"No PR")        
         count++
     })
-}
-         
-var j = schedule.scheduleJob(INTERVAL.FIVE_SEC, runJob);
+
 
 // 5 lakh -i20 (2016), Baleno - 6lakh, ertiga - 6 lakh  
 //https://github.com/topcoder-platform/community-app/pull/2947

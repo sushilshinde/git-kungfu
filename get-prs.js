@@ -16,7 +16,8 @@ function getString(arr) {
 }
 
 function print(item) {
-  console.log(item.html_url + "," + getString(item.labels));
+  //console.log(item.html_url + "," + getString(item.labels));
+  console.log(item.number)
 }
 
 function getPRs(state,searchForLables) {

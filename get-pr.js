@@ -3,7 +3,7 @@ require("dotenv").config();
 const fs = require('fs');
 var schedule = require('node-schedule');
 
-const prs = [2917,2918,2919,2921,2922,2931,2934,2936,2937,2938,2943,2943,2945,2950,2965,2976,2977,2990,2997,2999,3004]
+const prs = [2978]
 
 const octokit = new Octokit({
     auth: process.env.github_auth_token,

@@ -36,7 +36,7 @@ function getIssues(state,labels) {
       .catch(e => console.log(e));
     promises.push(p);
   }
-  return Promise.all(promises);
+  return Promise.all(promises).then(() => {});
 }
 
 module.exports = {
