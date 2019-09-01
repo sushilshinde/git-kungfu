@@ -3,7 +3,9 @@ require("dotenv").config();
 const fs = require('fs');
 var schedule = require('node-schedule');
 
-const prs = [2978]
+const prs = [3166,3179]
+
+
 
 const octokit = new Octokit({
     auth: process.env.github_auth_token,
@@ -16,7 +18,7 @@ for(pr in prs){
         repo:process.env.repo,
         pull_number:prs[pr]
     }).then(data => {
-        console.log(data.data.url+","+data.data.merge_commit_sha)
+        console.log(data.data.html_url+","+data.data.merge_commit_sha)
     }).catch(e => {
         console.log(e)
     })
